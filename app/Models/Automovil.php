@@ -10,12 +10,13 @@ class Automovil extends Model
     use HasFactory; 
 
     protected $fillable = [
-        'auto_id',
         'auto_name', 
         'auto_modelo', 
         'auto_marca', 
         'auto_pais',
     ]; 
+    
 
     protected $table = 'automoviles';
+    protected $primaryKey = 'auto_id';
 }

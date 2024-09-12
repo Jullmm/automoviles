@@ -9,3 +9,6 @@ Route::get('/', function () {
 
 Route::resource('automoviles', AutomovilController::class);
 
+Route::get('/test', function() {
+    dd('Test route reached');
+});

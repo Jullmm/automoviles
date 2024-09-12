@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Automovil;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class AutomovilController extends Controller
 {
@@ -23,7 +23,15 @@ class AutomovilController extends Controller
      */
     public function create()
     {
-        return view('create');
+        $client = new Client();
+        $response = $client->get('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso/ListOfCountryNamesByCode/JSON/debug');
+        
+        $data = json_decode($response->getBody()->getContents(), true);
+        $countries = array_map(function($country) {
+            return $country['sName'];
+        }, $data);
+        
+        return view('create', compact('countries'));
     }
 
     /**
@@ -32,7 +40,7 @@ class AutomovilController extends Controller
     public function store(Request $request)
     {
         Automovil::create($request->all());
-        return redirect()->route('index');
+        return redirect()->route('automoviles.index');
     }
 
     /**
@@ -60,7 +68,7 @@ class AutomovilController extends Controller
     {
         $automovil = Automovil::findOrFail($id);
         $automovil->update($request->all());
-        return redirect()->route('index');
+        return redirect()->route('automoviles.index');
     }
 
     /**
@@ -69,6 +77,6 @@ class AutomovilController extends Controller
     public function destroy(string $id)
     {
         Automovil::destroy($id);
-        return redirect()->route('index');
+        return redirect()->route('automoviles.index');
     }
 }
