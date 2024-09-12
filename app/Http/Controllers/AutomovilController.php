@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Automovil;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class AutomovilController extends Controller
@@ -13,9 +13,10 @@ class AutomovilController extends Controller
      */
     public function index()
     {
-        $automoviles = Automovil::all();
-        return view('index', compact('automoviles'));
+        $automoviles = Automovil::all(); 
+        return view('index', compact('automoviles')); 
     }
+
 
     /**
      * Show the form for creating a new resource.
